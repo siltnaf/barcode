@@ -1,0 +1,98 @@
+<?php
+
+$check_key=FALSE;
+include_once "conn.php";
+
+$WO=test_input($_POST["WO"]);
+$station=test_input($_POST["station"]);
+$operator=test_input($_POST["operator"]);
+
+        $sql="INSERT INTO worker (operator) VALUES ('$operator')";
+        $query=$conn->query($sql);
+
+
+
+    //    $sql = "SELECT BOM FROM workorder WHERE (station = '$station')  (WO='$WO');";
+        $sql = "SELECT a.station,a.stationOrder,a.QRcomponent,a.componentCount,WO FROM BOM_station as a
+                join workorder as b
+                using (BOM)
+                where (a.station='$station') and (WO='$WO');";
+        
+        
+        $query=$conn->query($sql);
+        $rows=$query->fetch_assoc();
+                      
+
+        #echo $rows;
+        #******************************************************
+        #if($rows== null) $rows=404;  #如果輸入錯誤 輸出404
+        #******************************************************
+        echo json_encode($rows);
+        mysqli_free_result($query);
+        mysqli_close($conn);
+        
+   ?>    
+  
+
+
+
+
+
+
+ <div class="container">
+                <h2 class="center">
+                Read UDI &ensp;<input type="text" id="UDI" value=""/> </input></br>
+                Print carton lalel per<input type="text"   id="UDI_pcs" value="<?php echo $counter_max ?>"  style="width:50px" class="center"/> input</input>
+            
+                <input type="submit" id="print" value="Print" name="Print"/></input>
+                <input type="submit" id="reset" value="Reset" name="RESET"/></input>
+            
+                </h2>
+            </div>
+
+
+
+
+
+
+  <body> 
+    
+  <div class="main" >     
+
+      <div class="container">
+          <h2 class="center">
+        
+            
+  
+          </h2>
+      </div>
+          
+      
+
+        <span class="leftpane" >
+
+            <div style="overflow-y:scroll; height:400px;" >
+          
+                <div id="counter"  class="center" style="font-size:200px">
+            1  
+            </div>
+          
+  
+        </span>
+         
+        <span class="rightall" id="result">
+
+            <div style="overflow-y:scroll; height:400px;" >
+
+      
+
+
+            </div>
+        </span>
+                
+</div>    
+ 
+
+</body>
+</html>
+
