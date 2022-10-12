@@ -43,7 +43,16 @@ $("#text").
   });
 
 
+  function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
 
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+        }
 
 
 </script>
@@ -55,6 +64,16 @@ $("#text").
   <?php
 
 include_once "../../conn.php";
+
+
+
+
+
+
+
+
+
+
  
 $QRcode="";
 $print="";
@@ -161,9 +180,9 @@ $print="";
                     }
                 $WO=array_unique($WO);
            
-            foreach($WO as $key=>$value)
-            {
-              $value='PP1677086';
+          //  foreach($WO as $key=>$value)
+           // {
+              $value='PP1677086';                        //assume one value
                 foreach($pLabel[$value] as $key2 =>$value2){
                   $sql="SELECT lot,SN from UDI where QRcode='$value2'";
                   $query=$conn->query($sql);
@@ -174,32 +193,75 @@ $print="";
                   
                 
                   }
-                  
                 }
+
+               
+                  for ($i=0;$i<300;$i++){              //create dummy data
+                    $SN[$i]="100".$i;
+  
+                  }
+
+      
+                  $print_QRcode_prefix='LOT#:'.$pLabel[$value]['LOT'].' SKU:'.$pLabel[$value]['SKU'].' PO:'.$pLabel[$value]['PO'];
               
+                  //group SN into 30 unit per group
+  
+                  $group_size=120;
+                  $loop=count($SN);
+                  
+                  $i=0;
+                  $j=0;
+                  $k=0;
+                  $SN_2D = array(array());
+                  $SN_group = array();
+                 while ($i<$loop){
+                     
+                      if ($j>$group_size){
+                        $print_QRcode[$k]=$print_QRcode_prefix.' '.$SN_group[$k];
+                        $j=0;
+                        $k++;
+                      }
+                      $SN_group[$k]=$SN_group[$k].'SN:'.(string)$SN[$i].' ';
+                      $SN_2D[$k][$j]=$SN[$i];
                       
-                $print_QRcode_prefix='LOT#:'.$pLabel[$value]['LOT'].' SKU:'.$pLabel[$value]['SKU'].' PO:'.$pLabel[$value]['PO'];
-                $i=0;
-                $j=0;
-                while ($i<200)
+                  
+                      $j++;
+                      $i++;
+
+                      
+
+
+                  }
+                $print_QRcode[$k]=$print_QRcode_prefix.' '.$SN_group[$k];
+            
+                 
+
+
+
+                 
                 
-                  $print_QRcode_SN[$j][$i]=' SN:'.$SN[$i];
-                  $i++;
-                  if ($i>=200) {$i=0;$j++;}
-                }
-   
-                var_dump($print_QRcode_SN);
+                 
+
+                
+
+
+
+
+
+
+                
+             // }  
+
+               
+                
+
+                
                  
                  
                   
                 
             
              
-
-                    //}
-
-                    //find the SN information from UDI table
-
 
 
 
@@ -209,7 +271,6 @@ $print="";
 
             
 
-        die;
         
         
         
@@ -233,87 +294,6 @@ $print="";
  
 
 
-//search printer IP
-$searchthis = "printIp=";
-  
-
-$handle = @fopen("../../settng.ini", "r");
-if ($handle)
-{
-    while (!feof($handle))
-    {
-        $buffer = fgets($handle);
-        if(strpos($buffer, $searchthis) !== FALSE)
-            $matches = $buffer;
-    }
-    fclose($handle);
-}
-
-$Ip_addr=substr($matches, strlen($searchthis),(strlen($matches)-strlen($searchthis)));
- 
-$print_info='LOT#:'.$LOT.' SKU:'.$SKU.' PO:'.$PO;
-
-$print_SN="";
-
-foreach ($SN as $key=>$value){
-
-$print_SN=$print_SN.' SN:'.$value;
-
-
-}
-
-$print_QRcode=$print_info.$print_SN;
-
-$data = ' 
-^XA
- ^FT50,350^BQN,2,7
- ^FH\^FDLA,'.$print_QRcode.'^FS
- ^FT325,130^A0N,38,33^FH\^CI28^FDLOT#: ^FS^CI27
- ^FT325,170^A0N,32,38^FH\^CI28^FDSKU: ^FS^CI27
- ^FT325,210^A0N,32,38^FH\^CI28^FDPO: ^FS^CI27
-
- ^FT419,130^A0N,38,38^FH\^CI28^FD'.$LOT.'^FS^CI27
- ^FT419,170^A0N,32,33^FH\^CI28^FD'.$SKU.'^FS^CI27
- ^FT419,210^A0N,32,33^FH\^CI28^FD'.$PO.'^FS^CI27';
- 
- $lengh=count($SN);
- $data_SN="";
- foreach($SN as $key=>$value){
-$data_SN=$data_SN.'
-^FT325,'.(string)(250+($key)*40).'^A0N,34,38^FH\^CI28^FDSN: ^FS^CI27
-^FT419,'.(string)(250+($key)*40).'^A0N,35,35^FH\^CI28^FD'.$value.'^FS^CI27';
-
- }
-
- $data_carton= '^BY2,3,68^FT700,346^BAB,,Y,N,N
- ^FD'.$carton.'^FS';
- 
- $data=$data.$data_SN.$data_carton.'^XZ';
- 
-
-//print to label printer
-/*
-
-
-if(($connection = fsockopen($Ip_addr,9100,$errno,$errstr))===false){ 
-    echo 'Connection Failed' . $errno . $errstr; 
-} 
-
-
-
-    
-
-#send request 
-$fput = fputs($connection, $data, strlen($data)); 
-
-#close the connection 
-fclose($connection); 
-
-
-  */    
-
-
-
 
 
           
@@ -322,37 +302,28 @@ fclose($connection);
  
 
   //check if UDI exist in the UDI table
-  ?>
+  
+
+
+?>
 
 
 
+<span class="widepane">
 
-<span class="halfpane">
 
+ 
+  
+ <div id="printableArea">
+  <span id="text" value= "<?php echo $print_QRcode[0] ?>" >
 
-<span id="text" value="<?php echo $print_QRcode ?>" >
-
-<div id="QRimage"></div>
- <h1 style=" margin-top:150px; margin-left:100px">  Carton#:<?php echo ''.$carton?> </h1>
-
-</span>
-
-</span>
-<span  class="halfpane" style="margin-top:50px; background-color: rgb(215, 217, 236)" >
-<span  class="info" style=" height:300px;width:300px">
-<div class="QRinfo">
-
-   <h2 >  LOT#:<?php echo ''.$LOT?> </h2>
-   <h2 > SKU:<?php echo '    '.$SKU?> </h2>
-   <h2 > PO:<?php echo '    '.$PO?> </h2>
-   <?php 
-        foreach ($SN as $key=>$value){
-          echo '<h2> SN: '.$value.'</h2>';
-
-        } 
-        ?>
-   <h2 style="color: rgb(200, 200, 200)"> <?php echo $UDI?></h2>
+  <div id="QRimage"></div>
+   <h1 style=" margin-top:150px; margin-left:100px">  Pallet#: <?php echo $pallet ?> </h1>
+   <input type="button" onclick="printDiv('printableArea')" value="print" /></input>
+  </span>
 
 </div>
-</span>
-</span>
+                
+
+
+

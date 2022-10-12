@@ -200,9 +200,8 @@ $query=$conn->query($sql);
             <h2 class="center">
        
             Read carton &ensp;<input type="text" id="carton" value=""/> 
-    
-               
-            <input type="submit" id="print" value="Print" name="Print"/>
+     
+            <input type="button" id="print" value="Print" name="Print" />
             <input type="submit" id="reset" value="Reset" name="RESET"/>
               
               
@@ -231,16 +230,12 @@ $query=$conn->query($sql);
 
         </div>
         </span>
-         
+        
         <span class="rightall" id="result">
 
-<div style="overflow-y:scroll; height:400px;" >
-
  
-
-
-</div>
-</span>
+        </span>
+      
           
         </div>  
  
