@@ -441,3 +441,7 @@ nav .fa.fa-angle-down { margin-left: 6px; }
     margin-top:100px;
     margin-left: 100px;
   }
+
+  .single_record{
+    page-break-after: always;
+   }

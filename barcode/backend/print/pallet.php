@@ -13,13 +13,20 @@ function activate(element){
 
 
 
-var qrcode = new QRCode("QRimage");
-
+ 
+var qrcode = new QRCode("QRimage", {
+ 
+    width: 600,
+    height: 600,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H
+});
 
 
 
 function makeCode () {    
-  var element = document.getElementById('text');
+  var element = document.getElementById('text1');
   var QRtext = element.getAttribute('value');
   console.log(QRtext);
   if (!QRtext) {
@@ -32,7 +39,7 @@ function makeCode () {
 
 makeCode();
 
-$("#text").
+$("#text1").
   on("blur", function () {
     makeCode();
   }).
@@ -41,6 +48,9 @@ $("#text").
       makeCode();
     }
   });
+
+ 
+
 
 
   function printDiv(divName) {
@@ -197,7 +207,7 @@ $print="";
 
                
                   for ($i=0;$i<300;$i++){              //create dummy data
-                    $SN[$i]="100".$i;
+                    $SN[$i]="10000".$i;
   
                   }
 
@@ -206,7 +216,7 @@ $print="";
               
                   //group SN into 30 unit per group
   
-                  $group_size=120;
+                  $group_size=100;
                   $loop=count($SN);
                   
                   $i=0;
@@ -315,12 +325,19 @@ $print="";
  
   
  <div id="printableArea">
-  <span id="text" value= "<?php echo $print_QRcode[0] ?>" >
+  <span id="text" value= "<?php echo $print_QRcode[0] ?>" style="width:90%" class="single_record" >
 
   <div id="QRimage"></div>
-   <h1 style=" margin-top:150px; margin-left:100px">  Pallet#: <?php echo $pallet ?> </h1>
+   <h1 style=" margin-top:300px; margin-left:100px">  Pallet#: <?php echo $pallet ?> </h1>
    <input type="button" onclick="printDiv('printableArea')" value="print" /></input>
   </span>
+
+  <span id="text1" value= "<?php echo $print_QRcode[1] ?>" style="width:90%" class="single_record" >
+
+<div id="QRimage"></div>
+ <h1 style=" margin-top:300px; margin-left:100px">  Pallet#: <?php echo $pallet ?> </h1>
+ <input type="button" onclick="printDiv('printableArea')" value="print" /></input>
+</span>
 
 </div>
                 
