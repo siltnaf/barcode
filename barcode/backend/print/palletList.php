@@ -51,7 +51,7 @@ if (isset($_POST["reset"])){
 
           //check if QRcode in carton table
 
-          $sql="SELECT * from carton where carton='$carton'";
+          $sql="SELECT * from UDI where carton='$carton'";
           $query=$conn->query($sql);
           if  (mysqli_num_rows($query)==0){
         

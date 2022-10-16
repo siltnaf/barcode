@@ -70,7 +70,7 @@ input.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
     var QRvalue=$("#carton").val();
-   
+    input.value="";
     var counter_value=document.getElementById('counter').innerHTML;
    
    

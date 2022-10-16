@@ -16,8 +16,8 @@ function printDiv(){
  document.body.innerHTML = printContents;
 
  window.print();
-
- document.body.innerHTML = originalContents;
+ window.location.replace("../../barcode/UI_print_pallet.php");
+ //document.body.innerHTML = originalContents;
 
 
 

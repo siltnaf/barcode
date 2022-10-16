@@ -452,11 +452,9 @@ nav .fa.fa-angle-down { margin-left: 6px; }
   }
 
  
-   @media print {
-    .pagebreak {
-        clear: both;
-        page-break-after: always;
+  @media print {
+    html, body {
+        height: 99%;    
     }
 }
-
 

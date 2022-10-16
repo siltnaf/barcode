@@ -139,7 +139,7 @@ include_once "../../conn.php";
   $searchthis = "printIp=";
   
 
-  $handle = @fopen("../../settng.ini", "r");
+  $handle = @fopen("c:/barcode/settng.ini", "r");
   if ($handle)
   {
       while (!feof($handle))
@@ -153,6 +153,7 @@ include_once "../../conn.php";
 
   $Ip_addr=substr($matches, strlen($searchthis),(strlen($matches)-strlen($searchthis)));
    
+  
   $print_QRcode='LOT#:'.$LOT.' SKU:'.$SKU.' SN:'.$SN;
 
   $data = ' 
