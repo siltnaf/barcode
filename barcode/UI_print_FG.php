@@ -29,6 +29,7 @@ input.addEventListener("keypress", function(event) {
       
        input.value="";
       
+      
        e.preventDefault();
      if (($('#UDI').val())!=null){
 

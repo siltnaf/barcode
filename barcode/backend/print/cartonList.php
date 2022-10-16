@@ -12,7 +12,7 @@ include_once "../../conn.php";
 if (isset($_POST["reset"])){
 
 
-  $sql="DELETE FROM Pack_pallet";
+  $sql="DELETE FROM Pack_carton";
   $query=$conn->query($sql);
 
 

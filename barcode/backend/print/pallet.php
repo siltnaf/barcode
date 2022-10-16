@@ -3,66 +3,64 @@
 <script src="js/QRcode.js"></script>
 
 <script>
-function activate(element){
+
+function printDiv(){
+  
+ var printContents = document.getElementById("printableArea").innerHTML;
+ var originalContents = document.body.innerHTML;
+
+
+
+ document.body.innerHTML = printContents;
+
+ window.print();
+
+ document.body.innerHTML = originalContents;
+
+
 
 }
-
-
  
 
 
 
+function makeCode () {  
 
- 
-var qrcode = new QRCode("QRimage", {
- 
-    width: 600,
-    height: 600,
-    colorDark : "#000000",
-    colorLight : "#ffffff",
-    correctLevel : QRCode.CorrectLevel.H
+// All inputs that contain the value
+$qrs = $('.qr_value');
+
+// Create a new instance of the QRCode for each input
+$qrs.each(function(index, item){
+    
+    // We cant hace same id multiple times, so, we need to create dynamic ids,
+    // thats why we are concatenating the index to the id string
+    let containerQr =  "qrcode_"+index;
+
+    // Create QR
+    let qrcode = new QRCode(containerQr, {
+        text: item.value, // value to read on qr
+        width: 250,
+        height: 250,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H,
+    });
 });
 
-
-
-function makeCode () {    
-  var element = document.getElementById('text1');
-  var QRtext = element.getAttribute('value');
-  console.log(QRtext);
-  if (!QRtext) {
-    alert("Input a text");
-    return;
-  }
-  
-  qrcode.makeCode(QRtext);
 }
 
 makeCode();
 
-$("#text1").
-  on("blur", function () {
-    makeCode();
-  }).
-  on("keydown", function (e) {
-    if (e.keyCode == 13) {
-      makeCode();
-    }
-  });
 
- 
+$(document).ready(function() {
+
+  printDiv()
+})
+
+//makeCode().then();
+  
 
 
-
-  function printDiv(divName) {
-        var printContents = document.getElementById(divName).innerHTML;
-        var originalContents = document.body.innerHTML;
-
-        document.body.innerHTML = printContents;
-
-        window.print();
-
-        document.body.innerHTML = originalContents;
-        }
 
 
 </script>
@@ -171,7 +169,8 @@ $print="";
             
            //}
 
-         
+            if ($WO==null) die;
+
             foreach ($WO as $key=>$value)
             {
                   // find the PO,SKU,LOT information
@@ -190,9 +189,10 @@ $print="";
                     }
                 $WO=array_unique($WO);
            
-          //  foreach($WO as $key=>$value)
-           // {
-              $value='PP1677086';                        //assume one value
+            foreach($WO as $key=>$value)
+            {
+             
+              //$value='PP1677086';                        //assume one value
                 foreach($pLabel[$value] as $key2 =>$value2){
                   $sql="SELECT lot,SN from UDI where QRcode='$value2'";
                   $query=$conn->query($sql);
@@ -206,7 +206,7 @@ $print="";
                 }
 
                
-                  for ($i=0;$i<300;$i++){              //create dummy data
+                  for ($i=0;$i<140;$i++){              //create dummy data
                     $SN[$i]="10000".$i;
   
                   }
@@ -216,12 +216,12 @@ $print="";
               
                   //group SN into 30 unit per group
   
-                  $group_size=100;
+                  $group_size=50;
                   $loop=count($SN);
                   
                   $i=0;
                   $j=0;
-                  $k=0;
+                  if ($print_QRcode==null) $k=0; else $k=count($print_QRcode);
                   $SN_2D = array(array());
                   $SN_group = array();
                  while ($i<$loop){
@@ -243,75 +243,19 @@ $print="";
 
                   }
                 $print_QRcode[$k]=$print_QRcode_prefix.' '.$SN_group[$k];
+              
             
-                 
+                }
 
 
 
-                 
-                
-                 
-
-                
-
-
-
-
-
-
-                
-             // }  
-
-               
-                
-
-                
-                 
-                 
-                  
-                
-            
-             
-
-
-
-
-           
-
-
-            
-
-        
-        
-        
-
-
-  
-  
-  
-
-         
-
-
-
-
-        
-      
-
-
-     
-
- 
-
-
-
-
+          //delete Pack_carton table
           
+          $sql="DELETE FROM Pack_pallet";
+          $query=$conn->query($sql);
 
 
- 
-
-  //check if UDI exist in the UDI table
+  
   
 
 
@@ -319,28 +263,47 @@ $print="";
 
 
 
-<span class="widepane">
-
-
- 
+<span class="widepane" >
   
- <div id="printableArea">
-  <span id="text" value= "<?php echo $print_QRcode[0] ?>" style="width:90%" class="single_record" >
+ <div id="printableArea" style="overflow-y:scroll; height:400px">
 
-  <div id="QRimage"></div>
-   <h1 style=" margin-top:300px; margin-left:100px">  Pallet#: <?php echo $pallet ?> </h1>
-   <input type="button" onclick="printDiv('printableArea')" value="print" /></input>
-  </span>
+ <?php  
+ foreach($print_QRcode as $key => $value){
+  if (($key%6)==0) {
+    echo "<div style='page-break-before: always;'></div>";
+  }
+  if (($key%2)==0){
+    echo '<div   class="halfpane margin-left:100px" >';
+  } else {
+    echo '<div   class="halfpaneright" >';
+  }
+ 
+  $SKU_pos=strpos($value,'SKU:');
+  $PO_pos=strpos($value,'PO:');
+  $SN_pos=strpos($value,'SN:');
+  $LOT=substr($value,0,$SKU_pos);
+  $SKU=substr($value,$SKU_pos,$PO_pos-$SKU_pos);
+  $PO=substr($value,$PO_pos,$SN_pos-$PO_pos);
 
-  <span id="text1" value= "<?php echo $print_QRcode[1] ?>" style="width:90%" class="single_record" >
+echo '
 
-<div id="QRimage"></div>
- <h1 style=" margin-top:300px; margin-left:100px">  Pallet#: <?php echo $pallet ?> </h1>
- <input type="button" onclick="printDiv('printableArea')" value="print" /></input>
-</span>
+'.$LOT.'<br>'.$SKU.'<br>'.$PO.'
+<input type="hidden" class="qr_value" value="'.$value.'">
+    <div id="qrcode_'.$key.'"></div> <br>
+    
+</div>';
+
+
+
+
+}
+ 
+ ?>
+ <h1 style=" margin-top:10px; margin-left:100px">  Pallet#:<?php echo ''.$pallet?> </h1>
+
 
 </div>
-                
+</span>       
 
 
 

@@ -18,8 +18,10 @@ $(document).ready(function() {
 
 
  $("#reset").click(function() {
+              input.value="";
+              input.focus();
               $.ajax({
-                        url:"./backend/print/cartonList.php",
+                        url:"./backend/print/palletList.php",
                         method:"POST",
                         data: {reset:"reset"},
                         success:function(result)
@@ -39,6 +41,8 @@ $(document).ready(function() {
 
 
  $("#print").click(function() {
+              input.value="";
+              input.focus();
               $.ajax({
                         url:"./backend/print/pallet.php",
                         method:"POST",

@@ -281,6 +281,7 @@ $data_SN=$data_SN.'
  
  $data=$data.$data_SN.$data_carton.'^XZ';
  
+ //echo $data;
 
 //print to label printer
 /*
@@ -324,7 +325,7 @@ fclose($connection);
 <span id="text" value="<?php echo $print_QRcode ?>" >
 
 <div id="QRimage"></div>
- <h1 style=" margin-top:150px; margin-left:100px">  Carton#:<?php echo ''.$carton?> </h1>
+ <h1 style=" margin-top:10px; margin-left:100px">  Carton#:<?php echo ''.$carton?> </h1>
 
 </span>
 

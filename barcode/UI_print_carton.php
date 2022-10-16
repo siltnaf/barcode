@@ -18,6 +18,8 @@ $(document).ready(function() {
 
 
  $("#reset").click(function() {
+              input.value="";
+              input.focus();
               $.ajax({
                         url:"./backend/print/cartonList.php",
                         method:"POST",
@@ -39,6 +41,8 @@ $(document).ready(function() {
 
 
  $("#print").click(function() {
+              input.value="";
+              input.focus();
               $.ajax({
                         url:"./backend/print/carton.php",
                         method:"POST",
@@ -66,6 +70,7 @@ input.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
     var QRvalue=$("#UDI").val();
+    input.value="";
     var counter_value=document.getElementById('counter').innerHTML;
     var max_value=$("#UDI_pcs").val();
     if (counter_value<max_value) {
@@ -82,7 +87,7 @@ input.addEventListener("keypress", function(event) {
                           alert (result.msg);
                          
                          } else{
-
+                          console.log(counter_value);
                           counter_value++;
                          document.getElementById('counter').innerHTML=counter_value;
           
