@@ -1,6 +1,8 @@
 <script src="js/jquery-3.6.0.js"></script>
 
-<script src="js/QRcode.js"></script>
+<script src="js/QRcode.min.js"></script>
+
+<script src="js/barcode.min.js"></script>
 
 <script>
 
@@ -39,8 +41,8 @@ $qrs.each(function(index, item){
     // Create QR
     let qrcode = new QRCode(containerQr, {
         text: item.value, // value to read on qr
-        width: 250,
-        height: 250,
+        width: 220,
+        height: 220,
         colorDark : "#000000",
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H,
@@ -50,7 +52,7 @@ $qrs.each(function(index, item){
 }
 
 makeCode();
-
+JsBarcode(".barcode").init();
 
 $(document).ready(function() {
 
@@ -206,7 +208,7 @@ $print="";
                 }
 
                
-                  for ($i=0;$i<140;$i++){              //create dummy data
+                  for ($i=0;$i<200;$i++){              //create dummy data
                     $SN[$i]="10000".$i;
   
                   }
@@ -269,13 +271,17 @@ $print="";
 
  <?php  
  foreach($print_QRcode as $key => $value){
-  if (($key%6)==0) {
-    echo "<div style='page-break-before: always;'></div>";
+  if (($key%6)==0)  {
+    echo '<div style="page-break-before: always;"></div>';
+   
+  
+  
+  
   }
   if (($key%2)==0){
-    echo '<div   class="halfpane margin-left:100px" >';
+    echo '<div   class="halfpane" style= "margin-left:50px" >';
   } else {
-    echo '<div   class="halfpaneright" >';
+    echo '<div   class="halfpaneright" style= "margin-left:50px" >';
   }
  
   $SKU_pos=strpos($value,'SKU:');
@@ -297,11 +303,21 @@ echo '
 
 
 }
+
+if ((count($print_QRcode)%2)==0){
+  echo '<div   class="halfpane" style="margin-top:20px" >';
+} else {
+  echo '<div   class="halfpaneright"  style="margin-top:20px" >';
+}
  
  ?>
- <h1 style=" margin-top:10px; margin-left:100px">  Pallet#:<?php echo ''.$pallet?> </h1>
-
-
+ 
+ <svg class="barcode" 
+  jsbarcode-format="code128"
+  jsbarcode-value="<?php echo $pallet ?>"
+  jsbarcode-textmargin="0"
+  jsbarcode-fontoptions="bold">
+</svg>
 </div>
 </span>       
 
