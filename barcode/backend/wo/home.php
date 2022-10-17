@@ -170,6 +170,8 @@ if ((isset($_POST["edit"]))&&(isset($_POST["WO"])!=0)){
                 $woinfo_new=$rows['description'];
                 $fw_new=$rows['FW'];
                 $hw_new=$rows['HW'];
+                $sn_pre_new=$rows['SN_prefix'];
+                $sn_suf_new=$rows['SN_suffix'];
                 $sku_new=$rows['SKU'];
                 $bom_new=$rows["BOM"];
                 $po_new=$rows["PO"];
@@ -207,6 +209,8 @@ if (isset($_POST["WO"])) {
             $woinfo_arr[]=$rows["description"];
             $hw_arr[]=$rows["HW"];
             $fw_arr[]=$rows["FW"];
+            $sn_pre[]=$rows["SN_prefix"];
+            $sn_suf[]=$rows["SN_suffix"];
             $po_arr[]=$rows["PO"];
             $sku_arr[]=$rows["SKU"];
             $qty_arr[]=$rows["qty"];
@@ -278,6 +282,8 @@ if (isset($_POST["WO"])) {
                     <th class="m">BOM</th>
                     <th class="s">FW</th>
                     <th class="s">HW</th>
+                    <th class="s">_SN</th>
+                    <th class="s">SN_</th>
                     <th class="m">PO</th>
                     <th class="m">SKU</th>
                     <th class="s">Qty</th>
@@ -308,6 +314,8 @@ if (isset($_POST["WO"])) {
                                               
                                                 '<td>' .wo_input("FW",$WO,$editable).$fw_new.'</div></td> 
                                                 <td>' .wo_input("HW",$WO,$editable).$hw_new.'</div></td> 
+                                                <td>' .wo_input("SN_prefix",$WO,$editable).$sn_pre_new.'</div></td> 
+                                                <td>' .wo_input("SN_suffix",$WO,$editable).$sn_suf_new.'</div></td> 
                                                 <td>' .wo_input("PO",$WO,$editable).$po_new.'</div></td> 
                                                 <td>' .wo_input("SKU",$WO,$editable).$sku_new.'</div></td>
                                                 <td>' .wo_input("qty",$WO,$editable).$qty_new.'</div></td>
@@ -333,6 +341,8 @@ if (isset($_POST["WO"])) {
                                        
                                          <td>' . $fw_arr[$i].'</td>
                                          <td>' . $hw_arr[$i].'</td>
+                                         <td>' . $sn_pre[$i].'</td>
+                                         <td>' . $sn_suf[$i].'</td>
                                          <td>' . $po_arr[$i].'</td>
                                          <td>' . $sku_arr[$i].'</td>
                                          <td>' . $qty_arr[$i].'</td> 

@@ -175,7 +175,7 @@ if     (isset($_POST["QRcode"]))  {
 
 
           //read wo for the same carton id
-          $sql="SELECT QRcode,c.SKU,c.LOT,c.PO,a.lot,a.SN  from UDI as a
+          $sql="SELECT QRcode,c.SKU,c.LOT,c.PO,a.lot,a.SN,c.SN_prefix,c.SN_suffix  from UDI as a
                 join QRcode as b
                 using (QRcode)
                 join workorder as c
@@ -190,13 +190,15 @@ if     (isset($_POST["QRcode"]))  {
             $PO=$rows["PO"];
             $SKU=$rows["SKU"];
             $LOT=$rows["LOT"];
+            $SN_pre=$rows["SN_prefix"];
+            $SN_suf=$rows["SN_suffix"];
           
           }
 
 
           
           foreach ($SN_lot as $key=>$value){
-            $SN[$key]=$value.$SN_SN[$key];
+            $SN[$key]=$SN_pre.$value.$SN_SN[$key].$SN_suf;
            }
         
 
@@ -276,12 +278,15 @@ $data_SN=$data_SN.'
 
  }
 
- $data_carton= '^BY2,3,68^FT700,346^BAB,,Y,N,N
+ $data_carton= '^BY2,3,68^FT720,340^BAB,,Y,N,N
  ^FD'.$carton.'^FS';
  
  $data=$data.$data_SN.$data_carton.'^XZ';
  
- //echo $data;
+
+
+
+
 
 //print to label printer
 /*

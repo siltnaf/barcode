@@ -55,6 +55,10 @@ if (isset($_POST["reset"])){
           $query=$conn->query($sql);
           if  (mysqli_num_rows($query)==0){
         
+            //if carton not used in UDI table, delete carton 
+            $sql="DELETE FROM carton WHERE (carton = '$carton')";
+            $query=$conn->query($sql);
+
             $results = array(
                 'status' => 'error',
                 'msg' => 'carton not found in database',

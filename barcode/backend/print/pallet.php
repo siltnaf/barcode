@@ -16,8 +16,9 @@ function printDiv(){
  document.body.innerHTML = printContents;
 
  window.print();
- window.location.replace("../../barcode/UI_print_pallet.php");
  //document.body.innerHTML = originalContents;
+ window.location.replace("../../barcode/UI_print_pallet.php");
+
 
 
 
@@ -176,13 +177,15 @@ $print="";
             foreach ($WO as $key=>$value)
             {
                   // find the PO,SKU,LOT information
-                      $sql="SELECT PO,LOT,SKU from workorder where WO='$value'";
+                      $sql="SELECT PO,LOT,SKU,SN_prefix,SN_suffix from workorder where WO='$value'";
                       $query=$conn->query($sql);
                       while ($rows=$query->fetch_assoc()) { 
       
                         $pLabel[$value]['PO']=$rows["PO"];
                         $pLabel[$value]['LOT']=$rows["LOT"];
                         $pLabel[$value]['SKU']=$rows["SKU"];
+                        $pLabel[$value]['SN_pre']=$rows["SN_prefix"];
+                        $pLabel[$value]['SN_suf']=$rows["SN_suffix"];
                     
                       }
               
@@ -206,14 +209,31 @@ $print="";
                 
                   }
                 }
+/*
+                $sql="SELECT SN_prefix,SN_suffix from workorder where WO='$value'";
+                $query=$conn->query($sql);
+                while ($rows=$query->fetch_assoc()) { 
 
-               
-                  for ($i=0;$i<200;$i++){              //create dummy data
-                    $SN[$i]="10000".$i;
+                  $sn_pre=$rows["SN_prefix"];     //replace the UDI with SN
+                  $sn_suf=$rows["SN_sufix"];     //replace the UDI with SN
+                
+                }
+*/
+                $SN=[];
+
+                  for ($i=0;$i<140;$i++){              //create dummy data
+                    $SN[$i]= $pLabel[$value]['SN_pre'].((string)221100000+$i). $pLabel[$value]['SN_suf'];
   
                   }
 
-      
+                  var_dump ($SN);
+      /*
+                  foreach($SN as $key=>$value){
+                    $SN[$key]=$sn_pre.$value.$sn_suf;
+
+
+                  }
+*/
                   $print_QRcode_prefix='LOT#:'.$pLabel[$value]['LOT'].' SKU:'.$pLabel[$value]['SKU'].' PO:'.$pLabel[$value]['PO'];
               
                   //group SN into 30 unit per group
@@ -228,7 +248,7 @@ $print="";
                   $SN_group = array();
                  while ($i<$loop){
                      
-                      if ($j>$group_size){
+                      if ($j>=$group_size){
                         $print_QRcode[$k]=$print_QRcode_prefix.' '.$SN_group[$k];
                         $j=0;
                         $k++;

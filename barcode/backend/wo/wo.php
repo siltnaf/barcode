@@ -60,6 +60,8 @@ if ($update=="WO"){
             $woinfo_arr[]=$rows["description"];
             $hw_arr[]=$rows["HW"];
             $fw_arr[]=$rows["FW"];
+            $sn_pre[]=$rows["SN_prefix"];
+            $sn_suf[]=$rows["SN_suffix"];
             $po_arr[]=$rows["PO"];
             $sku_arr[]=$rows["SKU"];
             $qty_arr[]=$rows["qty"];
@@ -92,6 +94,8 @@ if ($update=="WO"){
                     <th class="m">BOM</th>
                     <th class="s">FW</th>
                     <th class="s">HW</th>
+                    <th class="s">_SN</th>
+                    <th class="s">SN_</th>
                     <th class="m">PO</th>
                     <th class="m">SKU</th>
                     <th class="s">Qty</th>
@@ -119,6 +123,8 @@ if (($update=="delete")&&($wo_arr!=null)) {
                     
                                <td>' . $fw_arr[$i].'</td>
                                <td>' . $hw_arr[$i].'</td>
+                               <td>' . $sn_pre[$i].'</td>
+                               <td>' . $sn_suf[$i].'</td>
                                <td>' . $po_arr[$i].'</td>
                                <td>' . $sku_arr[$i].'</td>
                                <td>' . $qty_arr[$i].'</td> 

@@ -138,6 +138,8 @@ while ($rows=$query->fetch_assoc()){
     $po_arr[]=$rows["PO"];
     $sku_arr[]=$rows["SKU"];
     $qty_arr[]=$rows["qty"];
+    $sn_pre[]=$rows["SN_prefix"];
+    $sn_suf[]=$rows["SN_suffix"];
     $lot_arr[]=$rows["LOT"];
     $sdate_arr[]=$rows["startDate"];
     $edate_arr[]=$rows["endDate"];
@@ -219,6 +221,8 @@ WO#<input type="text" id="WO"/>
                     <th class="m">BOM</th>
                     <th class="s">FW</th>
                     <th class="s">HW</th>
+                    <th class="s">_SN</th>
+                    <th class="s">SN_</th>
                     <th class="m">PO</th>
                     <th class="m">SKU</th>
                     <th class="s">Qty</th>
@@ -244,6 +248,8 @@ WO#<input type="text" id="WO"/>
                                <td ><button type="button" name="WO" data-id="'.$bom_arr["$i"].'" class="btn_bom m" >'.$bom_arr[$i].'</button></td>
                                <td>' . $fw_arr[$i].'</td>
                                <td>' . $hw_arr[$i].'</td>
+                               <td>' . $sn_pre[$i].'</td>
+                               <td>' . $sn_suf[$i].'</td>
                                <td>' . $po_arr[$i].'</td>
                                <td>' . $sku_arr[$i].'</td>
                                <td>' . $qty_arr[$i].'</td> 

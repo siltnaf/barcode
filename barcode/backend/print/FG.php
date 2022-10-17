@@ -14,7 +14,18 @@ function activate(element){
 
 
 
-var qrcode = new QRCode("QRimage");
+var qrcode = new QRCode("QRimage",{
+
+
+    width: 200,
+    height: 200,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H,
+
+
+
+});
 
 
 
@@ -103,7 +114,7 @@ include_once "../../conn.php";
 
       }
 
-      $sql="SELECT b.LOT,b.SKU from QRcode as a
+      $sql="SELECT b.LOT,b.SKU,b.SN_suffix,b.SN_prefix from QRcode as a
       join workorder as b
       using (WO)
       where a.QRcode='$QRcode'";
@@ -111,6 +122,8 @@ include_once "../../conn.php";
         while ($rows=$query->fetch_assoc()){
           $LOT=$rows['LOT']; 
           $SKU=$rows['SKU'];
+          $SN_pre= $rows['SN_prefix'];
+          $SN_suf= $rows['SN_suffix'];
           
               }
           
@@ -121,9 +134,10 @@ include_once "../../conn.php";
           $SN_SN=$rows['SN'];
           
               }
+ 
 
 
-          $SN=$SN_lot.$SN_SN;
+          $SN=$SN_pre.$SN_lot.$SN_SN.$SN_suf;
         
 
         }
@@ -138,8 +152,8 @@ include_once "../../conn.php";
 //search printer IP
   $searchthis = "printIp=";
   
-
-  $handle = @fopen("c:/barcode/settng.ini", "r");
+  $handle = @fopen("../../settng.ini", "r");
+  //$handle = @fopen("../../settng.ini", "r");
   if ($handle)
   {
       while (!feof($handle))
@@ -153,12 +167,12 @@ include_once "../../conn.php";
 
   $Ip_addr=substr($matches, strlen($searchthis),(strlen($matches)-strlen($searchthis)));
    
-  
+  echo $IP_addr;
   $print_QRcode='LOT#:'.$LOT.' SKU:'.$SKU.' SN:'.$SN;
 
   $data = ' 
   ^XA
-   ^FT121,293^BQN,2,7
+   ^FT100,293^BQN,2,7
    ^FH\^FDLA,:'.$print_QRcode.'^FS
    ^FT325,138^A0N,38,33^FH\^CI28^FDLOT#: ^FS^CI27
    ^FT325,195^A0N,32,38^FH\^CI28^FDSKU: ^FS^CI27
@@ -169,11 +183,11 @@ include_once "../../conn.php";
 
    ^XZ';
 
-
+ 
 
   //print to label printer
-/*
 
+/*
   
   if(($connection = fsockopen($Ip_addr,9100,$errno,$errstr))===false){ 
       echo 'Connection Failed' . $errno . $errstr; 
@@ -189,8 +203,8 @@ include_once "../../conn.php";
   #close the connection 
   fclose($connection); 
  
-
-    */    
+*/
+       
 
 ?>
 

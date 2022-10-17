@@ -28,7 +28,7 @@ $(document).ready(function() {
                         {
                           $('#result').html(result);
 
-                          counter_value=1;
+                          counter_value=0;
                           document.getElementById('counter').innerHTML=counter_value;
           
 
@@ -51,7 +51,7 @@ $(document).ready(function() {
                         {
                           
                           $('#result').html(result);
-                          counter_value=1;
+                          counter_value=0;
                           document.getElementById('counter').innerHTML=counter_value;
           
 
@@ -73,7 +73,8 @@ input.addEventListener("keypress", function(event) {
     input.value="";
     var counter_value=document.getElementById('counter').innerHTML;
     var max_value=$("#UDI_pcs").val();
-    if (counter_value<max_value) {
+    console.log(max_value);
+    if (counter_value<(max_value-1)) {
          
           $.ajax({
                         url:"./backend/print/cartonList.php",
@@ -130,7 +131,7 @@ input.addEventListener("keypress", function(event) {
 
 
                         
-                         counter_value=1;
+                         counter_value=0;
                         document.getElementById('counter').innerHTML=counter_value;
                           
                 
@@ -242,7 +243,7 @@ $query=$conn->query($sql);
         <div style="overflow-y:scroll; height:400px;" >
       
         <div id="counter"  class="center" style="font-size:200px">
-     1
+     0
       
         </div>
       
