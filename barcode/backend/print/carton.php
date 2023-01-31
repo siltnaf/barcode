@@ -287,7 +287,6 @@ $data_SN=$data_SN.'
 
 
 
-
 //print to label printer
 /*
 

@@ -182,8 +182,8 @@ function operator_input($column,$operator,$editable) {
     else if (isset($_POST['edit'])) {
 
       echo '<tr> 
-      <td>' .operator_input("operator",$operator,$editable). $operator.'</div></td> 
-
+      <td>'. $operator.'</div></td>
+     
       <td>' .operator_input("description",$operator,$editable). $operatorInfo_new.'</div></td> 
     </tr>';
 

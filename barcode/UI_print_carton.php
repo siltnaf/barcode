@@ -220,7 +220,7 @@ $query=$conn->query($sql);
        
             Read UDI &ensp;<input type="text" id="UDI" value=""/> <br>
 
-            Print lalel per<input type="text"   id="UDI_pcs" value="<?php echo $counter_max ?>"  style="width:50px" class="center"/> input / &ensp;
+            Print label per<input type="text"   id="UDI_pcs" value="<?php echo $counter_max ?>"  style="width:50px" class="center"/> input / &ensp;
                
             <input type="submit" id="print" value="Print" name="Print"/>
             <input type="submit" id="reset" value="Reset" name="RESET"/>

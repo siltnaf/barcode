@@ -18,6 +18,9 @@ if (($_POST["update"])=="component"){
     $value=test_input($_POST["value"]);
     $column=test_input($_POST["column"]);
     $component=test_input($_POST["component"]);
+    $status=test_input($_POST["status"]);
+
+    if ($status=='true') $status=1; else $status=0;
 
       if ($value==''){
       
@@ -26,7 +29,7 @@ if (($_POST["update"])=="component"){
 
       }
       else{
-   $sql="UPDATE component  SET $column = '$value' WHERE ( component = '$component');";
+   $sql="UPDATE component SET full = '$status', description = '$value' WHERE (`component` = '$component')";
    
    }
    $query=$conn->query($sql);

@@ -195,7 +195,7 @@ function station_input($column,$station,$editable) {
     else if (isset($_POST['edit'])) {
 
       echo '<tr> 
-      <td>' .station_input("station",$station,$editable). $station.'</div></td> 
+      <td>' . $station.'</div></td> 
       <td>' .station_input("version",$station,$editable). $version_new.'</div></td> 
       <td>' .station_input("description",$station,$editable). $stationInfo_new.'</div></td> 
     </tr>';

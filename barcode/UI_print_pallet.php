@@ -1,6 +1,8 @@
  
 
 <script src="./js/jquery-3.6.0.js"></script>
+<script src="js/GS1.js"></script>
+
 
 <script>
   
@@ -236,6 +238,9 @@ $query=$conn->query($sql);
         </span>
         
         <span class="rightall" id="result">
+
+
+
 
  
         </span>

@@ -12,14 +12,16 @@ function activate(element){
 
 function updateComponent(element,column,component){
 
-var status=document.getElementById("checkbox");
+var status=document.getElementById("checkbox").checked;
 console.log(element.innerText+column+component);
+
 var value =element.innerText
  $.ajax({
    url: "./backend/component/component_update.php",
    type: "post",
    data: {
             value: value,
+            status: status,
             column: "description",
             component: component,
             update: "component"
@@ -27,7 +29,7 @@ var value =element.innerText
    success: function (php_result){
       console.log(php_result);
    }
-
+      
 
 
 
@@ -49,6 +51,7 @@ $editable="TRUE";
 
 function component_input($column,$component,$editable) {
   $result = '<div contenteditable="'.$editable.'" onBlur="updateComponent(this,'."'".$column."','".$component."'".')" onClick="activate(this)">';
+  
   echo $result;
   return $result;
 }
@@ -200,7 +203,7 @@ function component_input($column,$component,$editable) {
     ?>
 
 
-</table>
+</table>我是放了水但一点烟也没
 </div>
 
 

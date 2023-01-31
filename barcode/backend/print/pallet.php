@@ -4,6 +4,8 @@
 
 <script src="js/barcode.min.js"></script>
 
+
+
 <script>
 
 function printDiv(){
@@ -164,7 +166,7 @@ $print="";
            }
 
 
-
+         
             //group according to $WO_UDI
          //  foreach ($WO as $key=>$value){
 
@@ -194,10 +196,14 @@ $print="";
                     }
                 $WO=array_unique($WO);
            
-            foreach($WO as $key=>$value)
+               $WO=[];    ///test
+               $WO[0]='PP1677086';   //test
+
+               $k=0;          
+               foreach($WO as $key=>$value)
             {
              
-              //$value='PP1677086';                        //assume one value
+                                  //assume one value
                 foreach($pLabel[$value] as $key2 =>$value2){
                   $sql="SELECT lot,SN from UDI where QRcode='$value2'";
                   $query=$conn->query($sql);
@@ -220,13 +226,16 @@ $print="";
                 }
 */
                 $SN=[];
+               
 
-                  for ($i=0;$i<140;$i++){              //create dummy data
+                  for ($i=0;$i<128;$i++){              //create dummy data
                     $SN[$i]= $pLabel[$value]['SN_pre'].((string)221100000+$i). $pLabel[$value]['SN_suf'];
   
                   }
 
-                  var_dump ($SN);
+                 // print_r ($SN);
+                 // die;
+               
       /*
                   foreach($SN as $key=>$value){
                     $SN[$key]=$sn_pre.$value.$sn_suf;
@@ -240,6 +249,8 @@ $print="";
   
                   $group_size=50;
                   $loop=count($SN);
+
+                 
                   
                   $i=0;
                   $j=0;
@@ -269,7 +280,7 @@ $print="";
             
                 }
 
-
+                
 
           //delete Pack_carton table
           
